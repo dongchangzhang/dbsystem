@@ -1,0 +1,87 @@
+<html>
+
+<head>
+    <title>厉害了1</title>
+
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="/static/font-awesome-4.7.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" type="text/css" href="/static/css/nprogress.css">
+
+
+    <link rel="stylesheet" href="/static/css/mycss.css">
+
+    <style>
+
+    </style>
+
+</head>
+
+<body>
+    <div class="container">
+
+        <div class="welcome">
+
+            <div class="row clearfix">
+
+                <div class="col-md-12 column">
+
+
+                    <div class="col-md-8 column">
+                        <h3>发送信息</h3>
+                        <form role="form">
+                            <textarea style='width:100%; height:20%'></textarea>
+                            <hr>
+                            <button type="submit" class="btn btn-block btn-default">发送信息</button>
+                        </form>
+                    </div>
+                    <div class="col-md-4 column">
+                        <h3>个人信息</h3>
+                        <hr>
+                        <h4>姓名：{{ info.name }}</h4>
+                        <h4>性别：{{ info.sex }}</h4>
+                        <h4>生日：{{ info.birthday }}</h4>
+                        <h4>姓名：{{ info.name }}</h4>
+                        <h4>邮箱：{{ info.mail }}</h4>
+
+                        <hr>
+                        <form id='1' action='add_friend_to_group' method="get">
+                            <h3>选择新的分组</h3>
+                            <input name='friend' value='{{ info.iduser }}' hidden/>
+                            <select  name='id' class='btn btn-block btn-info'>
+                            {% for i in List %}
+                            <option  value ="{{ i.id }}">{{ i.group }}</option>
+                            {% endfor %}
+                        </select>
+
+                            <button type="submit" class="btn btn-default btn-info btn-block"> 添加或移动分组</button>
+                        </form>
+
+                        <hr>
+                        <h3>危险动作</h3>
+
+                        <a href='delete_friend?friend={{ info.iduser }}'><button type="button" class="btn btn-warning btn-block">删除好友</button></a>
+                        <hr>
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
+
+
+        {% include 'footer.html' %}
+
+    </div>
+
+
+    <script src="/static/js/jquery.min.js"></script>
+
+    <script src="/static/js/bootstrap.min.js"></script>
+
+    <script src="/static/js/nprogress.js" type="text/javascript"></script>
+</body>
+
+</html>

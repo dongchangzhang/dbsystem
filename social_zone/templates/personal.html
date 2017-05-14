@@ -1,0 +1,69 @@
+<html>
+
+<head>
+    <title>个人信息</title>
+
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="/static/font-awesome-4.7.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" type="text/css" href="/static/css/nprogress.css">
+
+
+    <link rel="stylesheet" href="/static/css/mycss.css">
+
+    <style>
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="row clearfix">
+            <div class="col-md-12 column">
+                <div class="welcome">
+                    <h1>个人信息</h1>
+                    <form role="form" action="user_update" method="post">{% csrf_token %}
+                        <div class="form-group">
+                            <label for="name">姓名</label><input required placeholder="{{name}}" type="text" class="form-control" id="name" name='name'
+                            />
+                        </div>
+                        <div class="form-group">
+                            <label for="sex">性别</label><input type="text" placeholder="{{sex}}" class="form-control" id="sex" name='sex' />
+                        </div>
+                        <div class="form-group">
+                            <label for="birthday">生日</label><input type="date" placeholder="{{birthday}}" class="form-control" id="birthday" name='birthday'
+                            />
+                        </div>
+                        <div class="form-group">
+                            <label for="mail">邮箱</label><input required type="email" placeholder="{{mail}}"  class="form-control" id="mail" name='mail'
+                            />
+                        </div>
+                        <div class="form-group">
+                            <label for="sex">地址</label><input type="text" autocomplete="off" placeholder="{{addr}}"  class="form-control" id="addr" name='addr' />
+                        </div>
+                        <div class="form-group">
+                            <label for="passwd">密码</label><input required type="password" placeholder="{{passwd}}"  class="form-control" id="passwd"
+                                name='passwd' />
+                        </div>
+
+                         <button type="submit" class="btn btn-default btn-block btn-warning">更新</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% include 'footer.html' %}
+
+    </div>
+
+
+    <script src="/static/js/jquery.min.js"></script>
+
+    <script src="/static/js/bootstrap.min.js"></script>
+
+    <script src="/static/js/nprogress.js" type="text/javascript"></script>
+</body>
+
+</html>

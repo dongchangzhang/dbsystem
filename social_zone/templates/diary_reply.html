@@ -24,24 +24,7 @@
         <div class="row clearfix">
             <div class="col-md-12 column">
                 <div class="welcome">
-                    <h1>日志</h1>
-                    <hr>
-                    <h3>发表新日志</h3>
-                    <form action='publish' method='post'>
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                    <input required type="text" name='title' placeholder="输入新的日志名" class="form-control"/>
-                            </div>
-                            <div class="panel-body">
-                                <textarea required  name='content' style='width:100%; height:20%' placeholder="输入日志内容" ></textarea>
-                            </div>
-                            <div class="panel-footer">
-                                <button type='submit' class='btn btn-block'>发表</button>
-                            </div>
-                        </div>
-                    </form>
-                    <h3>全部日志</h3>
-                    {% for diary in diarys %}
+                    <h1>日志回复</h1>
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h3 class="panel-title">
@@ -52,7 +35,34 @@
                             {{ diary.diary_content }}
                         </div>
                         <div class="panel-footer">
-                            {{ diary.diary_touch }} <a href='reply_diary?id={{diary.iddiary}}' class='pull-right' >回复</a>
+                            {{ diary.diary_touch }} <a href='reply_diary?id={{diary.iddiary}}' class='pull-right'>回复</a>
+                        </div>
+                    </div>
+                    <h3>新的回复</h3>
+                    <form action='diary_reply' method='post'>
+                        <div class="panel panel-default">
+                            <input name='id' value='{{diary.iddiary}}' hidden/>
+                            <div class="panel-body">
+                                <textarea required name='content' style='width:100%; height:20%' placeholder="输入回复内容"></textarea>
+                            </div>
+                            <div class="panel-footer">
+                                <button type='submit' class='btn btn-block'>发表</button>
+                            </div>
+                        </div>
+                    </form>
+                    <h3>已有回复</h3>
+                    {% for reply in replys %}
+                     <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                {{ reply.name }}
+                            </h3>
+                        </div>
+                        <div class="panel-body">
+                            {{ reply.content }}
+                        </div>
+                        <div class="panel-footer">
+                            {{ reply.time }}
                         </div>
                     </div>
                     {% endfor %}

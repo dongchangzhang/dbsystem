@@ -33,10 +33,10 @@
                             />
                         </div>
                         <div class="form-group">
-                            <label for="start">开始时间</label><input type="date" class="form-control" id="start" name='start' />
+                            <label for="start">开始时间</label><input type="text" placeholder="如：20120905" class="form-control" id="start" name='start' />
                         </div>
                         <div class="form-group">
-                            <label for="end">结束时间</label><input type="date" class="form-control" id="end" name='end'
+                            <label for="end">结束时间</label><input type="text" placeholder="如：20120202"class="form-control" id="end" name='end'
                             />
                         </div>
                         <div class="form-group">
@@ -48,21 +48,22 @@
                     <h2>已有工作经历</h2>
 
                       {% for i in List %}
-                     <form role="form" action="workupdate" method="post">
+                     <form role="form" action="work_update" method="post">
                         <div class="form-group">
-                            <label for="level{{ i.idwork }}">工作单位</label><input required placeholder="{{ i.place }}" type="text" class="form-control" id="level{{ i.idwork }}" name='level{{ i.idwork }}'
+                            <input type="hidden" name='idwork' value='{{i.idwork}}'/>
+                            <label for="level{{ i.idwork }}">工作单位</label><input required value="{{ i.place }}" type="text" class="form-control" id="level{{ i.idwork }}" name='place'
                             />
                         </div>
                         <div class="form-group">
-                            <label for="start{{ i.idwork }}">开始日期</label><input type="date" placeholder="{{ i.start }}" class="form-control" id="start{{ i.idwork }}" name='start{{ i.idwork }}'
+                            <label for="start{{ i.idwork }}">开始日期</label><input type="text" value="{{ i.start }}" class="form-control" id="start{{ i.idwork }}" name='start'
                             />
                         </div>
                         <div class="form-group">
-                            <label for="end{{ i.idwork }}">结束日期</label><input type="date" placeholder="{{ i.end }}" class="form-control" id="end{{ i.idwork }}" name='end{{ i.idwork }}'
+                            <label for="end{{ i.idwork }}">结束日期</label><input type="text" value="{{ i.end }}" class="form-control" id="end{{ i.idwork }}" name='end'
                             />
                         </div>
                         <div class="form-group">
-                            <label for="school{{ i.idwork }}">职位</label><input type="text" placeholder="{{ i.job }}" class="form-control" id="school{{ i.idwork }}" name='school{{ i.idwork }}' />
+                            <label for="school{{ i.idwork }}">职位</label><input type="text" value="{{ i.job }}" class="form-control" id="school{{ i.idwork }}" name='job' />
                         </div>
                         <button type="submit" class="btn btn-default btn-block btn-warning">更新</button>
                     </form>

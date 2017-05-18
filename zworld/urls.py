@@ -24,11 +24,10 @@ urlpatterns = [
     url(r'^user$', sovs.sign),
     url(r'^edu$', sovs.edu),
     url(r'^work$', sovs.work),
-    url(r'^diary', sovs.diary),
+    url(r'^diary$', sovs.diary),
     url(r'^friend$', sovs.friend),
     url(r'^message', sovs.message),
     url(r'^personalinfo', sovs.personal),
-    url(r'^userupdate', sovs.user_update),
     url(r'^eduinsert', sovs.edu_insert),
     url(r'^workinsert', sovs.work_insert),
     url(r'^search_friend', sovs.search_friend),
@@ -37,6 +36,18 @@ urlpatterns = [
     url(r'^friend_info', sovs.friend_info),
     url(r'^add_friend_to_group', sovs.add_friend_to_group),
     url(r'^delete_friend', sovs.delete_friend),
+    url(r'^user_update$', sovs.user_update),
+    url(r'^edu_update$', sovs.edu_update),
+    url(r'^work_update$', sovs.work_update),
+    url(r'^send_message$', sovs.send_message),
+    url(r'^publish$', sovs.publish_diary),
+    url(r'^reply_diary$', sovs.reply_diary),
+    url(r'^diary_reply$', sovs.diary_reply),
+
+
+
+
+
 
 
 ]

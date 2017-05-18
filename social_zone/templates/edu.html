@@ -33,11 +33,11 @@
                             />
                         </div>
                         <div class="form-group">
-                            <label for="start">开始日期</label><input type="date" class="form-control" id="start" name='start'
+                            <label for="start">开始日期</label><input type="text" placeholder="如：20120202" class="form-control" id="start" name='start'
                             />
                         </div>
                         <div class="form-group">
-                            <label for="end">结束日期</label><input type="date" class="form-control" id="end" name='end'
+                            <label for="end">结束日期</label><input type="text"  placeholder="如：20120202" class="form-control" id="end" name='end'
                             />
                         </div>
                         <div class="form-group">
@@ -55,24 +55,27 @@
                     {% for i in List %}
 
 
-                     <form role="form" action="eduupdate" method="post">
+                     <form role="form" action="edu_update" method="post">
+                           <div class="form-group">
+                            <input value="{{ i.idedu}}" type="hidden" class="form-control" id="{{ i.idedu }}" name='idedu'/>
+                        </div>
                         <div class="form-group">
-                            <label for="level{{ i.idedu }}">教育级别</label><input required placeholder="{{ i.level }}" type="text" class="form-control" id="level{{ i.idedu }}" name='level{{ i.idedu }}'
+                            <label for="level{{ i.idedu }}">教育级别</label><input required value="{{ i.level }}" type="text" class="form-control" id="level{{ i.idedu }}" name='level'
                             />
                         </div>
                         <div class="form-group">
-                            <label for="start{{ i.idedu }}">开始日期</label><input type="date" placeholder="{{ i.start }}" class="form-control" id="start{{ i.idedu }}" name='start{{ i.idedu }}'
+                            <label for="start{{ i.idedu }}">开始日期</label><input type="text" value="{{ i.start }}" class="form-control" id="start{{ i.idedu }}" name='start'
                             />
                         </div>
                         <div class="form-group">
-                            <label for="end{{ i.idedu }}">结束日期</label><input type="date" placeholder="{{ i.end }}" class="form-control" id="end{{ i.idedu }}" name='end{{ i.idedu }}'
+                            <label for="end{{ i.idedu }}">结束日期</label><input type="text" value="{{ i.end }}" class="form-control" id="end{{ i.idedu }}" name='end'
                             />
                         </div>
                         <div class="form-group">
-                            <label for="school{{ i.idedu }}">学校名</label><input type="text" placeholder="{{ i.school }}" class="form-control" id="school{{ i.idedu }}" name='school{{ i.idedu }}' />
+                            <label for="school{{ i.idedu }}">学校名</label><input type="text" value="{{ i.school }}" class="form-control" id="school{{ i.idedu }}" name='school' />
                         </div>
                         <div class="form-group">
-                            <label for="degree{{ i.idedu }}">学位</label><input required type="test" placeholder="{{ i.degree }}" class="form-control" id="degree{{ i.idedu }}"name='degree' />
+                            <label for="degree{{ i.idedu }}">学位</label><input required type="test" value="{{ i.degree }}" class="form-control" id="degree{{ i.idedu }}"name='degree' />
                         </div>
                         <button type="submit" class="btn btn-default btn-block btn-warning">更新</button>
                     </form>

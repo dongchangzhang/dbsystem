@@ -27,25 +27,25 @@
                     <h1>个人信息</h1>
                     <form role="form" action="user_update" method="post">{% csrf_token %}
                         <div class="form-group">
-                            <label for="name">姓名</label><input required placeholder="{{name}}" type="text" class="form-control" id="name" name='name'
+                            <label for="name">姓名</label><input required value="{{name}}" type="text" class="form-control" id="name" name='name'
                             />
                         </div>
                         <div class="form-group">
-                            <label for="sex">性别</label><input type="text" placeholder="{{sex}}" class="form-control" id="sex" name='sex' />
+                            <label for="sex">性别</label><input type="text" value="{{sex}}" class="form-control" id="sex" name='sex' />
                         </div>
                         <div class="form-group">
-                            <label for="birthday">生日</label><input type="date" placeholder="{{birthday}}" class="form-control" id="birthday" name='birthday'
+                            <label for="birthday">生日</label><input type="text" value="{{birthday}}" class="form-control" id="birthday" name='birthday'
                             />
                         </div>
                         <div class="form-group">
-                            <label for="mail">邮箱</label><input required type="email" placeholder="{{mail}}"  class="form-control" id="mail" name='mail'
+                            <label for="mail">邮箱</label><input required type="email" value="{{mail}}"  class="form-control" id="mail" name='mail'
                             />
                         </div>
                         <div class="form-group">
-                            <label for="sex">地址</label><input type="text" autocomplete="off" placeholder="{{addr}}"  class="form-control" id="addr" name='addr' />
+                            <label for="sex">地址</label><input type="text" autocomplete="off" value="{{addr}}"  class="form-control" id="addr" name='addr' />
                         </div>
                         <div class="form-group">
-                            <label for="passwd">密码</label><input required type="password" placeholder="{{passwd}}"  class="form-control" id="passwd"
+                            <label for="passwd">密码</label><input required type="password" value="{{passwd}}"  class="form-control" id="passwd"
                                 name='passwd' />
                         </div>
 

@@ -52,7 +52,10 @@
                             {{ diary.diary_content }}
                         </div>
                         <div class="panel-footer">
-                            {{ diary.diary_touch }} <a href='reply_diary?id={{diary.iddiary}}' class='pull-right' >回复</a>
+                            {{ diary.diary_touch }} <a href='reply_diary?id={{diary.iddiary}}' class='pull-right' > | 回复</a>
+                            {% if iduser == diary.iduser %}
+                            <a href='delete_diary?id={{diary.iddiary}}' class='pull-right'> 删除 |</a>
+                            {% endif %}
                         </div>
                     </div>
                     {% endfor %}

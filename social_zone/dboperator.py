@@ -19,7 +19,7 @@ def connect_mysql():
     '''
     connect mysql
     '''
-    return pymysql.connect(host='127.0.0.1', user='root', passwd='root', db='mydb')
+    return pymysql.connect(host='127.0.0.1', user='root', passwd='root', db='mydb',charset="utf8")
 
 def search(conn, sql):
     '''

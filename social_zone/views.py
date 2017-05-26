@@ -33,7 +33,10 @@ def sign(request):
         info.append(request.POST['passwd'])
         info.append(request.POST['mail'])
 
-        sign_up(request, info)
+        if not sign_up(request, info):
+            print("-----------------2")
+
+            return render(request, 'error.html')
     user_name = request.session['user_name']
     info = {'user_name': user_name}
 
@@ -43,9 +46,9 @@ def sign(request):
 def sign_in(request, mail, passwd):
     sql = 'select passwd, iduser, name from user where mail = "' + mail + '"'
     conn = connect_mysql()
+
     r = search(conn, sql)
     conn.close()
-
     if len(r) == 0 or passwd != r[0][0]:
         return False
     elif passwd == r[0][0]:
@@ -55,6 +58,7 @@ def sign_in(request, mail, passwd):
         return True
     else:
         return False
+
 
 
 def sign_up(request, info):
@@ -67,6 +71,7 @@ def sign_up(request, info):
     request.session['user_now'] = r[0][0]
     request.session['user_name'] = r[0][1]
     conn.close()
+    return True
 
 
 def personal(request):
@@ -96,8 +101,8 @@ def edu(request):
     List = []
     for e in r:
         e = list(e)
-        e[2] = str(e[2]).replace('-','')
-        e[3] = str(e[3]).replace('-','')
+        e[2] = str(e[2]).replace('-', '')
+        e[3] = str(e[3]).replace('-', '')
         List.append(dict(zip(elements, e)))
     info['List'] = List
     print(len(List))
@@ -123,9 +128,11 @@ def edu_insert(request):
     else:
         return render(request, 'error.html')
 
+
 def edu_update(request):
     sql = "update edu_expe set edu_level='%s', edu_start_time=%s, edu_end_time=%s, edu_schoolname='%s', edu_degree = '%s' where idedu_expe=%s and edu_iduser=%s" % (
-        request.POST['level'], request.POST['start'], request.POST['end'], request.POST['school'], request.POST['degree'], request.POST['idedu'], request.session['user_now']
+        request.POST['level'], request.POST['start'], request.POST['end'], request.POST[
+            'school'], request.POST['degree'], request.POST['idedu'], request.session['user_now']
     )
     conn = connect_mysql()
     r = other_action(conn, sql)
@@ -134,6 +141,7 @@ def edu_update(request):
         return render(request, 'successful.html')
     else:
         return render(request, 'error.html')
+
 
 def work(request):
     sql = 'select * from work_expe where work_iduser = ' + \
@@ -145,8 +153,8 @@ def work(request):
     List = []
     for e in r:
         e = list(e)
-        e[2] = str(e[2]).replace('-','')
-        e[3] = str(e[3]).replace('-','')
+        e[2] = str(e[2]).replace('-', '')
+        e[3] = str(e[3]).replace('-', '')
         List.append(dict(zip(elements, e)))
     info['List'] = List
     print()
@@ -171,9 +179,11 @@ def work_insert(request):
     else:
         return render(request, 'error.html')
 
+
 def work_update(request):
     sql = "update work_expe set work_place='%s', work_start_time=%s, work_end_time=%s, work_job = '%s' where idwork_expe=%s and work_iduser=%s" % (
-        request.POST['place'], request.POST['start'], request.POST['end'], request.POST['job'], request.POST['idwork'], request.session['user_now']
+        request.POST['place'], request.POST['start'], request.POST['end'], request.POST[
+            'job'], request.POST['idwork'], request.session['user_now']
     )
     conn = connect_mysql()
     r = other_action(conn, sql)
@@ -182,20 +192,25 @@ def work_update(request):
     else:
         return render(request, 'error.html')
 
-# 嵌套查询
+# 嵌套查询 查询朋友的和自己的日志
+
+
 def diary(request):
     sql = 'select DISTINCT iddiary, diary_name, diary_touch, diary_iduser, diary_content, iduser, name  from diary_view, friend where diary_view.iduser in ( \
-        select friend from friend where friend_iduser=%s) or diary_view.iduser = %s' %(
-            request.session['user_now'], request.session['user_now']
-        )
+        select friend from friend where friend_iduser=%s) union select DISTINCT iddiary, diary_name, diary_touch, diary_iduser, diary_content, \
+        iduser, name  from diary_view where diary_view.iduser = %s' % (
+        request.session['user_now'], request.session['user_now']
+    )
+    print(sql)
     conn = connect_mysql()
     r = search(conn, sql)
     print(r)
-    delement = ['iddiary', 'diary_name', 'diary_touch', 'diary_iduser', 'diary_content', 'iduser', 'name']
+    delement = ['iddiary', 'diary_name', 'diary_touch',
+                'diary_iduser', 'diary_content', 'iduser', 'name']
     diarys = []
     for e in r:
         diarys.append(dict(zip(delement, e)))
-    info = {'diarys': diarys}
+    info = {'diarys': diarys, 'iduser': request.session['user_now']}
     conn.close()
     return render(request, 'diary.html', info)
 
@@ -212,7 +227,7 @@ def friend(request):
     sql = 'select iduser, name, '
     group = {}
     sql = 'select user.iduser, name, user.mail, groupname, sex, birthday from user, friend, \
-    friend_group where user.iduser = friend.friend and friend.friend_iduser = %s and friend.friend_idgroup = friend_group.idgroup'% request.session['user_now']
+    friend_group where user.iduser = friend.friend and friend.friend_iduser = %s and friend.friend_idgroup = friend_group.idgroup' % request.session['user_now']
     r = search(conn, sql)
     gelements = ['id', 'name', 'mail', 'groupname', 'sex', 'birthday']
     for e in r:
@@ -220,7 +235,7 @@ def friend(request):
             group[e[3]] = [dict(zip(gelements, e))]
         else:
             group[e[3]].append(dict(zip(gelements, e)))
-    print(group)
+    sql = 'select '
     conn.close()
     info = {'friend': friend, 'friend_group': group}
     return render(request, 'friend.html', info)
@@ -232,7 +247,8 @@ def message(request):
     print(sql)
     conn = connect_mysql()
     r = search(conn, sql)
-    melements = ['name', 'mal', 'idmessage_reply', 'message_iduser', 'message_content', 'message_to_who', 'message_time']
+    melements = ['name', 'mal', 'idmessage_reply', 'message_iduser',
+                 'message_content', 'message_to_who', 'message_time']
     msgs = []
     for e in r:
         msgs.append(dict(zip(melements, e)))
@@ -241,16 +257,17 @@ def message(request):
 
 
 def user_update(request):
-    sql = "update user set name='%s', sex='%s', birthday=%s, addr='%s', passwd='%s', mail='%s' where iduser = %s" %(
+    sql = "update user set name='%s', sex='%s', birthday=%s, addr='%s', passwd='%s', mail='%s' where iduser = %s" % (
         request.POST['name'], request.POST['sex'], request.POST['birthday'], request.POST['addr'],
         request.POST['passwd'], request.POST['mail'], request.session['user_now']
     )
-    conn = connect_mysql();
+    conn = connect_mysql()
     r = other_action(conn, sql)
     if r == 1:
         return render(request, 'successful.html')
     else:
         return render(request, 'error.html')
+
 
 def search_friend(request):
     elements = ['iduser', 'name', 'sex', 'birthday', 'addr', 'passwd', 'mail']
@@ -313,7 +330,8 @@ def friend_info(request):
         'sex': request.GET['sex'],
         'birthday': request.GET['birthday']
     }
-    sql = 'select idgroup, groupname from friend_group where friend_group.iduser=%s' % request.session['user_now']
+    sql = 'select idgroup, groupname from friend_group where friend_group.iduser=%s' % request.session[
+        'user_now']
     conn = connect_mysql()
     r = search(conn, sql)
     List = []
@@ -322,7 +340,7 @@ def friend_info(request):
         List.append(dict(zip(elements, e)))
     sql = 'select groupname from friend, friend_group where friend.friend_idgroup = \
      friend_group.idgroup and friend.friend_iduser = %s and friend.friend = %s' % (
-       request.session['user_now'], request.GET['iduser'])
+        request.session['user_now'], request.GET['iduser'])
     r = search(conn, sql)
     if len(r) > 0 and len(r[0]) > 0:
         r = r[0][0]
@@ -370,10 +388,10 @@ def delete_group():
 
 def publish_diary(request):
     localtime = time.localtime(time.time())
-    dtime = time.strftime("%Y-%m-%d %H:%M",localtime)
+    dtime = time.strftime("%Y-%m-%d %H:%M", localtime)
     title = request.POST['title']
     content = request.POST['content']
-    sql = 'insert into diary(diary_name, diary_touch, diary_iduser, diary_content) values("%s", "%s", %s, "%s")' %(
+    sql = 'insert into diary(diary_name, diary_touch, diary_iduser, diary_content) values("%s", "%s", %s, "%s")' % (
         title, dtime, request.session['user_now'], content
     )
     conn = connect_mysql()
@@ -388,16 +406,27 @@ def edit_diary():
     pass
 
 
-def delete_diary():
-    return render(request, 'successful.html')
+def delete_diary(request):
+    id = request.GET['id']
+    print(id)
+    sql = 'delete from diary where iddiary=%s' % id
+    conn = connect_mysql()
+    r = other_action(conn, sql)
+    if r == 1:
+        return render(request, 'successful.html')
+    else:
+        return render(request, 'error.html')
 
 # 视图
+
+
 def reply_diary(request):
     id = request.GET['id']
     sql = 'select DISTINCT iddiary, diary_name, diary_touch, diary_iduser, diary_content, iduser, name  from diary_view where iddiary = %s' % id
     conn = connect_mysql()
     r = search(conn, sql)
-    delement = ['iddiary', 'diary_name', 'diary_touch', 'diary_iduser', 'diary_content', 'iduser', 'name']
+    delement = ['iddiary', 'diary_name', 'diary_touch',
+                'diary_iduser', 'diary_content', 'iduser', 'name']
     info = {'diary': dict(zip(delement, r[0]))}
     sql = 'select * from diary_reply_view where reply_diary=%s' % id
     r = search(conn, sql)
@@ -414,7 +443,7 @@ def diary_reply(request):
     id = request.POST['id']
     content = request.POST['content']
     localtime = time.localtime(time.time())
-    ftime = time.strftime("%Y-%m-%d %H:%M",localtime)
+    ftime = time.strftime("%Y-%m-%d %H:%M", localtime)
     sql = 'insert into diary_reply (reply_diary, reply_content, reply_time, reply_user) values(%s, "%s", "%s", %s)' % (
         id, content, ftime, request.session['user_now']
     )
@@ -431,7 +460,7 @@ def send_message(request):
     msg = request.POST['msg']
     to_who = request.POST['to_who']
     localtime = time.localtime(time.time())
-    ftime = time.strftime("%Y-%m-%d %H:%M",localtime)
+    ftime = time.strftime("%Y-%m-%d %H:%M", localtime)
 
     sql = 'insert into message_reply(message_iduser, message_content, message_to_who, message_time) values (%s, "%s", %s,"%s")' % (
         request.session['user_now'], msg, to_who, ftime
@@ -445,5 +474,17 @@ def send_message(request):
         return render(request, 'error.html')
 
 
-def reply_message():
-    pass
+def cal(request):
+    # 分组查询
+    sql = 'select name, count(*) as times \
+    from friend, user \
+    where user.iduser = friend.friend_iduser \
+    group by friend_iduser'
+    conn = connect_mysql()
+    r = search(conn, sql)
+    celements = ['name', 'times']
+    List = []
+    for e in r:
+        List.append(dict(zip(celements, e)))
+    info = { 'List': List}
+    return render(request, 'cal.html', info)

@@ -1,7 +1,7 @@
 <html>
 
 <head>
-    <title>数据库实验3</title>
+    <title>统计</title>
 
     <link href="/static/css/bootstrap.min.css" rel="stylesheet">
 
@@ -24,15 +24,18 @@
         <div class="row clearfix">
             <div class="col-md-12 column">
                 <div class="welcome">
-                    当前用户：{{ user_name }}
-                    <h3> <a href='friend'>好友</a>/
-                     <a href="diary">日志</a>/
-                     <a href='message'>消息</a>/
-                     <a href="personalinfo"> 个人信息</a>/
-                    <a href="edu"> 教育经历</a>/
-                     <a href="work">工作经历</a>/
-                     <a href="cal">统计</a></h3>
+                    <h1>统计</h1>
+                    <hr>
 
+                    {% for cal in List %}
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                {{ cal.name }} 有 {{ cal.times }} 个好友
+                            </h3>
+                        </div>
+                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>

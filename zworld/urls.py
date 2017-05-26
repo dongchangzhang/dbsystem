@@ -43,6 +43,9 @@ urlpatterns = [
     url(r'^publish$', sovs.publish_diary),
     url(r'^reply_diary$', sovs.reply_diary),
     url(r'^diary_reply$', sovs.diary_reply),
+    url(r'^delete_diary', sovs.delete_diary),
+    url(r'^cal$', sovs.cal)
+
 
 
 
